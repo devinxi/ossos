@@ -1,5 +1,5 @@
 //#region IMPORTS
-import type { ISkin, TTextureInfo } from './ISkin.js'
+import type { ISkin, TTextureInfo } from './ISkin'
 import type Armature                from '../Armature'
 import type Pose                    from '../Pose';
 
@@ -7,7 +7,7 @@ import { quat2 }                    from 'gl-matrix'
 import Vec4Util                     from '../../maths/Vec4Util';
 import Vec3Util                     from '../../maths/Vec3Util';
 import Transform                    from '../../maths/Transform';
-import Bone                         from '../Bone.js';
+import Bone                         from '../Bone';
 //#endregion
 
 const COMP_LEN = 12;            // 12 Floats, Extra Byte for 16 Byte Alignment Requirement in certain buffer types

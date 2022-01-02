@@ -1,5 +1,5 @@
 //#region IMPORTS
-import type { ISkin }   from './skins/ISkin.js'
+import type { ISkin }   from './skins/ISkin'
 import { vec3, quat }   from 'gl-matrix'
 import Transform        from '../maths/Transform'
 import Vec3Util         from '../maths/Vec3Util'

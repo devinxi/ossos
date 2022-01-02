@@ -39,7 +39,7 @@ class BoneSpring{
         return this;
     }
 
-    updatePose( dt: number, pose: Pose, doWorldUpdate:false ): this{
+    updatePose( dt: number, pose: Pose, doWorldUpdate:boolean ): this{
         let ch: SpringChain;
         for( ch of this.items.values() ){
             ch.updatePose( dt, pose );    

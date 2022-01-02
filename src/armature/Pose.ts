@@ -1,7 +1,7 @@
 //#region IMPORTS
 import type { Pose as GLPose, PoseJoint as GLPoseJoint }   from '../parsers/gltf2/Pose';
-import type Armature    from './Armature.js';
-import type Bone        from './Bone.js';
+import type Armature    from './Armature';
+import type Bone        from './Bone';
 import { vec3, quat }   from 'gl-matrix';
 import Transform        from '../maths/Transform';
 import Vec3Util from '../maths/Vec3Util';

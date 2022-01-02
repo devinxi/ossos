@@ -1,12 +1,12 @@
 //#region IMPORTS
-import type { ISkin, TTextureInfo } from './ISkin.js'
+import type { ISkin, TTextureInfo } from './ISkin'
 import type Armature                from '../Armature'
 import type Pose                    from '../Pose';
 import type Transform               from '../../maths/Transform';
 
 import { quat2 }                    from 'gl-matrix'
 import Vec4Util                     from '../../maths/Vec4Util';
-import Bone                         from '../Bone.js';
+import Bone                         from '../Bone';
 //#endregion
 
 const COMP_LEN = 8;             // 8 Floats
