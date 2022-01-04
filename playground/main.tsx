@@ -2,7 +2,7 @@ import { render } from "solid-js/web";
 import { Canvas } from "solid-three";
 import { Stage } from "./Stage";
 import "../examples/threejs/_lib/Starter.css";
-import { Example } from "./006_IkRetarget";
+import { Example } from "./007_Character";
 function App() {
   return (
     <Canvas

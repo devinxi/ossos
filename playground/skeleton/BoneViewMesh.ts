@@ -1,9 +1,9 @@
 //#region IMPORTS
 import * as THREE from "three";
 import BoneViewMaterial from "./BoneViewMaterial";
-import Vec3Util from "../src/maths/Vec3Util";
-import QuatUtil from "../src/maths/QuatUtil";
-import { Armature, Pose } from "../src/ossos";
+import Vec3Util from "../../src/maths/Vec3Util";
+import QuatUtil from "../../src/maths/QuatUtil";
+import { Armature, Pose } from "../../src/ossos";
 //#endregion
 
 class BoneViewMesh extends THREE.Mesh {

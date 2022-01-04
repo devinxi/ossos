@@ -1,12 +1,12 @@
 import { vec3 } from "gl-matrix";
 import { BipedRig, IKChain } from "../src/ikrig/index";
 import BipedIKPose from "../src/ikrig/animation/BipedIKPose";
-import { debug } from "./debug";
+import { debug } from "./debug/debug";
 import { Pose } from "../src/ossos";
 import * as IK from "../src/ikrig/IKData";
 import { V0, T0, V1 } from "./MixamoAnimator";
 
-export class IKPoseVisualize {
+export class IKPoseKelper {
   static show(rig: BipedRig, pose: Pose, ikpose: BipedIKPose) {
     debug.pnt.reset();
     debug.ln.reset();

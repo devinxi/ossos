@@ -4,8 +4,8 @@ import { Armature, Gltf2, Pose, Animator, Clip, SkinMTX } from "../src/ossos";
 
 export const Skeleton = Armature;
 
-import BoneViewMesh from "./BoneViewMesh.js";
-import SkinMTXMaterial from "./SkinMTXMaterial.js";
+import BoneViewMesh from "./skeleton/BoneViewMesh";
+import SkinMTXMaterial from "./skeleton/SkinMTXMaterial";
 import { UtilGltf2 } from "./UtilGltf2.js";
 
 export class CharacterUtils {

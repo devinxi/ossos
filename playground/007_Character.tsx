@@ -1,5 +1,5 @@
 import { Character, GLTFCharacter, Tina } from "./character";
-import { createMixamoRig } from "./MixamoAnimator";
+import { createAnimations, createMixamoRig, useAnimations } from "./MixamoAnimator";
 import { createSignal, Show } from "solid-js";
 import { prepare, useFrame } from "solid-three";
 import { createControls } from "solid-leva";
@@ -15,6 +15,11 @@ export function Example() {
       options: ["Walking", "Rumba", "Running", "Standing", "Ready", "Catwalk"]
     }
   });
+
+  const [clips] = createAnimations({
+    Walking: "../examples/_res/anim/Walking.gltf",
+    Rumba: "../examples/_res/anim/Rumba.gltf"
+  });
   const [animation, state] = createMixamoRig(
     () => `../examples/_res/anim/${controls.animation}.gltf`
   );
@@ -23,6 +28,11 @@ export function Example() {
 
   effect: {
     console.log(data());
+    if (clips()) {
+      //   console.log(Object.values(clips()));
+      const api = useAnimations(Object.values(clips()));
+      console.log(api);
+    }
   }
 
   animation.debug = true;

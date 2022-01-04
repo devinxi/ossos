@@ -41,7 +41,7 @@ class DynLineMesh extends THREE.LineSegments {
       | number[],
     p1: number | Float32Array | number[] | undefined,
     color0 = this._defaultColor,
-    color1 = null,
+    color1: any = null,
     isDash = false
   ) {
     this._verts.push(p0[0], p0[1], p0[2], p1[0], p1[1], p1[2]);

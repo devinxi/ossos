@@ -9,7 +9,7 @@ import { BipedRig } from "../src/ikrig/index";
 import { createEffect, extend, prepare, useContext } from "solid-three";
 import ShapePointsMesh from "../examples/threejs/_lib/ShapePointsMesh";
 import { Pose } from "../src/parsers/gltf2/Pose.js";
-import { DebugPointsContext, DebugPoint } from "./debug";
+import { DebugPointsContext, DebugPoint } from "./debug/debug";
 
 function createCharacter(gltf: Gltf2) {
   const arm = UtilArm.armFromGltf(gltf); // Armature Setup Boiler Plate Abstracted

@@ -13,7 +13,7 @@ import {
 import { prepare, useThree } from "solid-three";
 import * as THREE from "three";
 import { OrbitControls, Html } from "solid-drei";
-import { DebugLineContext, DebugPointsContext } from "./debug";
+import { DebugLineContext, DebugPointsContext } from "./debug/debug";
 
 const PerspectiveCamera = ({
   position = [10, 5, 10],

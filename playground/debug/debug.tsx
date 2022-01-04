@@ -1,5 +1,5 @@
 import { createContext, createRenderEffect, useContext } from "solid-three";
-import ShapePointsMesh from "./ShapePointsMesh";
+import ShapePointsMesh from "./DebugPointsMesh";
 import DynLineMesh from "./DebugLineMesh";
 
 export const debug = {

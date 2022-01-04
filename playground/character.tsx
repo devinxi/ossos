@@ -8,7 +8,7 @@ import {
   Show
 } from "solid-js";
 import { extend, GroupProps, Overwrite, prepare, useFrame, useThree } from "solid-three";
-import BoneViewMesh from "./BoneViewMesh";
+import BoneViewMesh from "./skeleton/BoneViewMesh";
 import { CharacterUtils } from "./muppets";
 import BoneSpring from "../src/bonespring";
 import { BipedIKPose, BipedRig, IKRig } from "../src/ikrig";
@@ -274,63 +274,81 @@ declare module "solid-js" {
 
 import { createControls } from "solid-leva";
 
-export function Nabba(props: ComponentProps<"character"> & { onLoad?: (rig: Character) => void }) {
-  const [rig, setRig] = createSignal<Character | null>(null);
-
-  const controls = createControls("nibba", {
-    debug: true,
-    mesh: true,
-    bones: false
+export function GLTFCharacter(
+  props: ComponentProps<"character"> & { onLoad?: (rig: Character) => void; url: string }
+) {
+  let rig: Character;
+  const controls = createControls(props.name ?? "character", {
+    view: {
+      options: ["mesh", "bones"]
+    }
   });
-  const helper = new CharacterHelper();
-  const [data] = createResource(rig, async char => {
-    const gltf = await Gltf2.fetch("../examples/_res/models/nabba/nabba.gltf");
-    char.setSkeletonFromGltf(gltf!, false).autoRig().loadSkinnedMeshFromGltf(gltf!);
-    helper.setCharacter(char);
-    if (props.onLoad) props.onLoad(char);
-    char.add(helper.boneView);
-    return char;
-  });
-
-  useFrame((_, dt) => {
-    helper.update(dt);
-  });
+  const [data] = createResource(
+    () => props.url,
+    async url => {
+      const gltf = await Gltf2.fetch(props.url);
+      rig.setSkeletonFromGltf(gltf!, false).autoRig().loadSkinnedMeshFromGltf(gltf!);
+      if (props.onLoad) props.onLoad(rig);
+      return gltf;
+    }
+  );
 
   createEffect(() => {
-    console.log("here");
-    controls.bones;
-    controls.mesh;
-    if (rig() && helper.boneView) {
-      helper.boneView.visible = controls.bones;
-    }
-
-    if (rig() && rig()?.mesh) {
-      rig()!.mesh!.visible = controls.mesh;
-    }
-
-    // if (rig()?.mesh) {
-    //   rig().mesh!.visible = controls.mesh;
+    let view = controls.view;
+    // if (rig && helper.boneView) {
+    // helper.boneView.visible = view === "bones";
     // }
+
+    if (rig && rig?.mesh) {
+      rig!.mesh!.visible = view === "mesh";
+    }
   });
 
-  return <character {...props} ref={setRig}></character>;
+  useHelper(
+    () => !data.loading && controls.view === "bones",
+    (visible: boolean) => {
+      console.log(rig.skeleton);
+      if (!rig.skeleton) {
+        return null;
+      }
+      const m = CharacterUtils.newBoneView(rig.skeleton!, rig.pose);
+
+      // @ts-ignore
+      m.update = () => m.updateFromPose(rig.pose!);
+      console.log(m);
+      return m as any;
+    }
+  );
+
+  return (
+    <character
+      {...props}
+      ref={el => {
+        rig = el;
+        if (typeof props.ref === "function") {
+          props.ref(el);
+        }
+      }}
+    />
+  );
 }
 
 type Helper = Object3D & {
-  update: () => void;
+  update: (dt: number) => void;
 };
 
-function useHelper<T extends any[]>(o: T | (() => T), getHelper: (...args: T[]) => Helper) {
+function useHelper<T>(o: () => T, getHelper: (args: T) => Helper | null) {
   const helper = {
     current: null as Helper | null
   };
 
   const scene = useThree(state => state.scene);
   createEffect(() => {
-    let object = typeof o === "function" ? o : o;
+    let object = typeof o === "function" ? (o as any)() : o;
     if (object) {
       helper.current = getHelper(object as T);
       if (helper.current) {
+        console.log("hereee");
         scene().add(helper.current);
       }
     }
@@ -342,9 +360,9 @@ function useHelper<T extends any[]>(o: T | (() => T), getHelper: (...args: T[]) 
     });
   });
 
-  useFrame(() => {
+  useFrame((_, dt) => {
     if (helper.current?.update) {
-      helper.current.update();
+      helper.current.update(dt);
     }
   });
 
@@ -396,44 +414,9 @@ export function Tina(props: ComponentProps<"character"> & { onLoad?: (rig: Chara
     return char;
   });
 
-  useHelper(
-    () => [rig()?.skeleton, rig()?.mesh, rig()?.pose] as const,
-    (arm, mesh, pose) => {
-      const m = CharacterUtils.newBoneView(arm, pose);
-
-      return m;
-    }
-  );
-
-  useFrame((_, dt) => {
-    helper.update(dt);
-  });
-
-  createEffect(() => {
-    console.log("here");
-    controls.bones;
-    controls.mesh;
-    if (rig() && helper.boneView) {
-      helper.boneView.visible = controls.bones;
-    }
-
-    if (rig() && rig()?.mesh) {
-      rig()!.mesh!.visible = controls.mesh;
-    }
-
-    // if (rig()?.mesh) {
-    //   rig().mesh!.visible = controls.mesh;
-    // }
-  });
-
   return (
     <>
       <character {...props} ref={setRig}></character>
-      <group position={position}>
-        <Show when={!data.loading} fallback={<></>}>
-          {prepare(helper.boneView)}
-        </Show>
-      </group>
     </>
   );
 }
