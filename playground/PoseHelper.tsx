@@ -1,7 +1,7 @@
 import { Armature, Pose } from "../src/ossos";
 import BoneViewMesh from "./skeleton/BoneViewMesh";
 
-class PoseHelper extends BoneViewMesh {
+export class PoseHelper extends BoneViewMesh {
   constructor(pose: Pose, armature: Armature) {
     super(armature);
     this.pose = pose;

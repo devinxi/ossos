@@ -337,7 +337,7 @@ type Helper = Object3D & {
   update: (dt: number) => void;
 };
 
-function useHelper<T>(o: () => T, getHelper: (args: T) => Helper | null) {
+export function useHelper<T>(o: () => T, getHelper: (args: T) => Helper | null) {
   const helper = {
     current: null as Helper | null
   };
